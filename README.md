@@ -12,7 +12,7 @@
 | **Goal** | Build an automated data platform that helps a FinTech company proactively identify customers at risk of churning, forecast cash flow, and generate daily business insights. |
 | **Stack** | Google BigQuery (Data Warehouse), dbt (transformation), Airflow (orchestration), Power BI (dashboard), Ollama Cloud (AI insights) |
 | **Architecture** | Medallion (Bronze → Silver → Gold) + Hybrid (local orchestration + cloud processing) |
-| **Status** | ✅ **Week 1 completed:** Data ingestion, exploration, quality checks, initial insights<br>✅ **Week 2 completed:** dbt setup, staging models, Silver layer created |
+| **Status** | ✅ **Week 1 completed:** Data ingestion, exploration, quality checks, initial insights<br>✅ **Week 2 completed:** dbt setup, staging models, Silver layer created<br>✅ **Week 3 completed:** Intermediate & Gold models, star schema for BI |
 
 ---
 
@@ -23,7 +23,7 @@ The project follows a **4‑level analytical framework**:
 | Level | Question | Status |
 |-------|----------|--------|
 | **Descriptive** | Who is churning? | ✅ Completed (see insights below) |
-| **Diagnostic** | Why are they churning? | 🔄 In progress (intermediate & gold models) |
+| **Diagnostic** | Why are they churning? | 🔄 In progress (feature engineering & dbt models) |
 | **Predictive** | Who will churn next month? | 📅 Planned (XGBoost model) |
 | **Prescriptive** | What actions to take? | 📅 Planned (dashboard recommendations + AI insights) |
 
@@ -47,18 +47,22 @@ The project follows a **4‑level analytical framework**:
 
 | Table | Description | Rows |
 |-------|-------------|------|
-| `silver.stg_customers` | Cleaned customer data: renamed columns, filtered age 18-100, standardized data types | 80,000 |
-| `silver.stg_transactions` | Cleaned transaction data: converted timestamps, filtered amount > 0, fraud flags as integers | 5,000,000 |
+| `stg_customers` | Cleaned customer data: renamed columns, filtered age 18-100, standardized data types | 80,000 |
+| `stg_transactions` | Cleaned transaction data: converted timestamps, filtered amount > 0, fraud flags as integers | 5,000,000 |
 
 **Staging models transform bronze → silver:**
 - Rename columns for clarity (`credit_sco` → `credit_score`, `exit` → `churn_label`)
 - Cast data types (`timestamp` string → `TIMESTAMP`, `is_fraud` boolean → `INT64`)
 - Filter invalid records (age out of range, negative amounts, null timestamps)
 
-### Gold Layer (Ready for BI) – 📅 Planned for Week 3
+### Gold Layer (Ready for BI) – ✅ Completed in Week 3
 
-- Star schema with `fct_daily_metrics` (fact table) and `dim_customers` (dimension table)
-- Pre‑computed LTV segments, cohort retention, RFM scores
+| Table | Type | Description | Rows |
+|-------|------|-------------|------|
+| `dim_customers` | Dimension | Customer attributes: age, segment, loyalty, risk, estimated LTV | 80,000 |
+| `fct_daily_metrics` | Fact | Daily metrics joined with customer segments for filtering | 29.3M |
+| `int_txn_daily_agg` | Intermediate | Daily transaction aggregation (revenue, count, avg amount) | 366 |
+| `int_user_cohort` | Intermediate | Customer cohort preparation (last active month, months since last active) | 80,000 |
 
 > 🧠 **Why Medallion?** This architecture ensures data quality at each stage, enables incremental processing, and creates a clear separation between raw, cleaned, and business‑ready data.
 
@@ -143,7 +147,7 @@ After uploading both tables to BigQuery, I performed initial quality checks and 
 
 ---
 
-## 🛠️ dbt Implementation (Week 2)
+## 🛠️ dbt Implementation
 
 ### What is dbt and why use it?
 
@@ -153,7 +157,7 @@ dbt (data build tool) transforms raw data in BigQuery using SQL, with software e
 - **Testing** – Built-in data quality tests (not null, unique, accepted values)
 - **Documentation** – Auto-generated data catalog
 
-### Staging Models Created
+### Week 2: Staging Models (Silver Layer)
 
 | Model | Source | Transformations |
 |-------|--------|-----------------|
@@ -161,24 +165,48 @@ dbt (data build tool) transforms raw data in BigQuery using SQL, with software e
 | `stg_transactions` | `bronze_transactions` | Converted timestamp string to TIMESTAMP, filtered amount > 0, fraud boolean → integer |
 
 
-### dbt Project Structure
+### Week 3: Intermediate & Gold Models (Star Schema)
+
+| Model | Type | Description |
+|-------|------|-------------|
+| `int_txn_daily_agg` | Intermediate | Daily revenue, transaction count, average amount |
+| `int_user_cohort` | Intermediate | Cohort month and months since last active |
+| `dim_customers` | Dimension (Gold) | Customer attributes: age, segment, loyalty, risk, estimated LTV |
+| `fct_daily_metrics` | Fact (Gold) | Daily metrics joined with customer segments for filtering |
+
+**Star Schema Lineage:**
 
 ```text
+stg_customers ──► dim_customers (dimension)
+       │
+       └──────────────┐
+                      ▼
+stg_transactions ──► int_txn_daily_agg ──► fct_daily_metrics (fact)
+                                               │
+                                               ▼
+                                        Power BI Dashboard
+```
+
+### dbt Project Structure
+```
 fintech_dbt/
 ├── models/
 │   ├── staging/
 │   │   ├── sources.yml          # Source declarations
 │   │   ├── stg_customers.sql
 │   │   └── stg_transactions.sql
-│   ├── intermediate/            # 📅 Week 3
-│   └── gold/                    # 📅 Week 3
-├── tests/                       # 📅 Week 3
+│   ├── intermediate/
+│   │   ├── int_txn_daily_agg.sql
+│   │   └── int_user_cohort.sql
+│   └── gold/
+│       ├── dim_customers.sql
+│       └── fct_daily_metrics.sql
+├── tests/                       # Data quality tests
 ├── dbt_project.yml
 └── README.md
-
-## 🛠️ Technology Stack & Architecture
-
-```text
+```
+### 🛠️ Technology Stack & Architecture
+```
 [Data Sources]
    ├── Kaggle datasets (CSV)
    └── Synthetic transaction generator (Python / Faker)
@@ -186,14 +214,18 @@ fintech_dbt/
          ▼
 [Google Cloud Platform]
    ├── Cloud Storage → staging area
-   ├── BigQuery → Data Warehouse (Bronze / Silver / Gold)
-   └── (Week 2) Cloud Run Jobs → dbt & Python scripts
+   ├── BigQuery → Data Warehouse
+   │   ├── fip_dwh (Bronze)
+   │   ├── fip_dwh_silver (Silver)
+   │   └── fip_dwh_gold (Gold - Star Schema)
+   └── (Week 4) Cloud Run Jobs → dbt & Python scripts
          │
          ▼
-[Orchestration] (Week 2‑3)
+[Orchestration] (Week 5‑6)
    └── Airflow (local) or Cloud Scheduler → trigger dbt + ML pipelines
          │
          ▼
 [BI & Insights]
    ├── Power BI Service → interactive dashboard (4 pages)
    └── Ollama Cloud → AI‑generated daily insights
+```
