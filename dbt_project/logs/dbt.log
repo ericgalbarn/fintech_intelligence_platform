@@ -1,0 +1,92 @@
+[0m11:16:04.653789 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1065b9640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x110066b80>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x110066d60>]}
+
+
+============================== 11:16:04.656808 | 32ff9abd-bea8-43ad-9eae-5442ada69f50 ==============================
+[0m11:16:04.656808 [info ] [MainThread]: Running with dbt=1.10.22
+[0m11:16:04.657159 [debug] [MainThread]: running dbt with arguments {'introspect': 'True', 'cache_selected_only': 'False', 'quiet': 'False', 'printer_width': '80', 'static_parser': 'True', 'no_print': 'None', 'write_json': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'target_path': 'None', 'partial_parse': 'True', 'profiles_dir': '/Users/ericgalbarn/.dbt', 'log_format': 'default', 'version_check': 'True', 'indirect_selection': 'eager', 'empty': 'None', 'send_anonymous_usage_stats': 'True', 'invocation_command': 'dbt init fintech_dbt', 'use_experimental_parser': 'False', 'fail_fast': 'False', 'log_cache_events': 'False', 'warn_error': 'None', 'log_path': 'logs', 'debug': 'False', 'use_colors': 'True'}
+[0m11:16:04.666104 [info ] [MainThread]: Creating dbt configuration folder at /Users/ericgalbarn/.dbt
+[0m11:16:04.667251 [debug] [MainThread]: Starter project path: /Users/ericgalbarn/Library/Python/3.9/lib/python/site-packages/dbt/include/starter_project
+[0m11:16:04.671333 [info ] [MainThread]: 
+Your new dbt project "fintech_dbt" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m11:16:04.671552 [info ] [MainThread]: Setting up your profile.
+[0m11:20:33.976890 [info ] [MainThread]: Profile fintech_dbt written to /Users/ericgalbarn/.dbt/profiles.yml using target's profile_template.yml and your supplied values. Run 'dbt debug' to validate the connection.
+[0m11:20:33.980301 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": true, "command_wall_clock_time": 269.3726, "process_in_blocks": "0", "process_kernel_time": 0.297947, "process_mem_max_rss": "339443712", "process_out_blocks": "0", "process_user_time": 1.929124}
+[0m11:20:33.980627 [debug] [MainThread]: Command `dbt init` succeeded at 11:20:33.980570 after 269.37 seconds
+[0m11:20:33.980871 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1065b9640>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1068b1940>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x151463280>]}
+[0m11:20:33.981133 [debug] [MainThread]: Flushing usage events
+[0m11:20:38.258278 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m11:21:00.708525 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1070a55b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108129b20>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x108129d00>]}
+
+
+============================== 11:21:00.711900 | 953fac90-ef7e-4708-9cc4-5c9796970ec3 ==============================
+[0m11:21:00.711900 [info ] [MainThread]: Running with dbt=1.10.22
+[0m11:21:00.712257 [debug] [MainThread]: running dbt with arguments {'introspect': 'True', 'warn_error': 'None', 'log_format': 'default', 'partial_parse': 'True', 'debug': 'False', 'write_json': 'True', 'version_check': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'cache_selected_only': 'False', 'profiles_dir': '/Users/ericgalbarn/.dbt', 'empty': 'None', 'indirect_selection': 'eager', 'printer_width': '80', 'use_experimental_parser': 'False', 'invocation_command': 'dbt debug', 'fail_fast': 'False', 'use_colors': 'True', 'send_anonymous_usage_stats': 'True', 'target_path': 'None', 'no_print': 'None', 'static_parser': 'True', 'log_path': 'logs', 'quiet': 'False', 'log_cache_events': 'False'}
+[0m11:21:00.721249 [info ] [MainThread]: dbt version: 1.10.22
+[0m11:21:00.721566 [info ] [MainThread]: python version: 3.9.6
+[0m11:21:00.721755 [info ] [MainThread]: python path: /Library/Developer/CommandLineTools/usr/bin/python3
+[0m11:21:00.721938 [info ] [MainThread]: os info: macOS-15.7.3-arm64-arm-64bit
+[0m11:21:02.218948 [info ] [MainThread]: Using profiles dir at /Users/ericgalbarn/.dbt
+[0m11:21:02.219306 [info ] [MainThread]: Using profiles.yml file at /Users/ericgalbarn/.dbt/profiles.yml
+[0m11:21:02.219502 [info ] [MainThread]: Using dbt_project.yml file at /Users/ericgalbarn/Documents/fintech-intelligence-platform/dbt_project/dbt_project.yml
+[0m11:21:02.219709 [info ] [MainThread]: adapter type: bigquery
+[0m11:21:02.219883 [info ] [MainThread]: adapter version: 1.10.2
+[0m11:21:02.220068 [info ] [MainThread]: Configuration:
+[0m11:21:02.220247 [info ] [MainThread]:   profiles.yml file [[32mOK found and valid[0m]
+[0m11:21:02.220410 [info ] [MainThread]:   dbt_project.yml file [[31mERROR not found[0m]
+[0m11:21:02.220571 [info ] [MainThread]: Required dependencies:
+[0m11:21:02.220807 [debug] [MainThread]: Executing "git --help"
+[0m11:21:02.248767 [debug] [MainThread]: STDOUT: "b"usage: git [-v | --version] [-h | --help] [-C <path>] [-c <name>=<value>]\n           [--exec-path[=<path>]] [--html-path] [--man-path] [--info-path]\n           [-p | --paginate | -P | --no-pager] [--no-replace-objects] [--no-lazy-fetch]\n           [--no-optional-locks] [--no-advice] [--bare] [--git-dir=<path>]\n           [--work-tree=<path>] [--namespace=<name>] [--config-env=<name>=<envvar>]\n           <command> [<args>]\n\nThese are common Git commands used in various situations:\n\nstart a working area (see also: git help tutorial)\n   clone      Clone a repository into a new directory\n   init       Create an empty Git repository or reinitialize an existing one\n\nwork on the current change (see also: git help everyday)\n   add        Add file contents to the index\n   mv         Move or rename a file, a directory, or a symlink\n   restore    Restore working tree files\n   rm         Remove files from the working tree and from the index\n\nexamine the history and state (see also: git help revisions)\n   bisect     Use binary search to find the commit that introduced a bug\n   diff       Show changes between commits, commit and working tree, etc\n   grep       Print lines matching a pattern\n   log        Show commit logs\n   show       Show various types of objects\n   status     Show the working tree status\n\ngrow, mark and tweak your common history\n   backfill   Download missing objects in a partial clone\n   branch     List, create, or delete branches\n   commit     Record changes to the repository\n   merge      Join two or more development histories together\n   rebase     Reapply commits on top of another base tip\n   reset      Reset current HEAD to the specified state\n   switch     Switch branches\n   tag        Create, list, delete or verify a tag object signed with GPG\n\ncollaborate (see also: git help workflows)\n   fetch      Download objects and refs from another repository\n   pull       Fetch from and integrate with another repository or a local branch\n   push       Update remote refs along with associated objects\n\n'git help -a' and 'git help -g' list available subcommands and some\nconcept guides. See 'git help <command>' or 'git help <concept>'\nto read about a specific subcommand or concept.\nSee 'git help git' for an overview of the system.\n""
+[0m11:21:02.249380 [debug] [MainThread]: STDERR: "b''"
+[0m11:21:02.249626 [info ] [MainThread]:  - git [[32mOK found[0m]
+
+[0m11:21:02.249837 [info ] [MainThread]: Connection:
+[0m11:21:02.250100 [info ] [MainThread]:   method: service-account
+[0m11:21:02.250280 [info ] [MainThread]:   database: fintech-intelligence-platform
+[0m11:21:02.250447 [info ] [MainThread]:   execution_project: fintech-intelligence-platform
+[0m11:21:02.250608 [info ] [MainThread]:   schema: fip_dwh
+[0m11:21:02.250768 [info ] [MainThread]:   location: EU
+[0m11:21:02.250928 [info ] [MainThread]:   priority: interactive
+[0m11:21:02.251089 [info ] [MainThread]:   maximum_bytes_billed: None
+[0m11:21:02.251246 [info ] [MainThread]:   impersonate_service_account: None
+[0m11:21:02.251403 [info ] [MainThread]:   job_retry_deadline_seconds: None
+[0m11:21:02.251563 [info ] [MainThread]:   job_retries: 1
+[0m11:21:02.251720 [info ] [MainThread]:   job_creation_timeout_seconds: None
+[0m11:21:02.251878 [info ] [MainThread]:   job_execution_timeout_seconds: 300
+[0m11:21:02.252037 [info ] [MainThread]:   timeout_seconds: 300
+[0m11:21:02.252194 [info ] [MainThread]:   client_id: None
+[0m11:21:02.252350 [info ] [MainThread]:   token_uri: None
+[0m11:21:02.252508 [info ] [MainThread]:   compute_region: None
+[0m11:21:02.252666 [info ] [MainThread]:   dataproc_cluster_name: None
+[0m11:21:02.252823 [info ] [MainThread]:   gcs_bucket: None
+[0m11:21:02.252980 [info ] [MainThread]:   dataproc_batch: None
+[0m11:21:02.253416 [info ] [MainThread]: Registered adapter: bigquery=1.10.2
+[0m11:21:02.421512 [debug] [MainThread]: Acquiring new bigquery connection 'debug'
+[0m11:21:02.421968 [debug] [MainThread]: On debug: select 1 as id
+[0m11:21:02.422215 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m11:21:06.757702 [debug] [MainThread]: BigQuery adapter: https://console.cloud.google.com/bigquery?project=fintech-intelligence-platform&j=bq:EU:4a3e5d61-46e0-42dd-a883-b84908b93be8&page=queryresults
+[0m11:21:07.807827 [info ] [MainThread]:   Connection test: [[32mOK connection ok[0m]
+
+[0m11:21:07.808326 [info ] [MainThread]: [31m1 check failed:[0m
+[0m11:21:07.808574 [info ] [MainThread]: Project loading failed for the following reason:
+ project path </Users/ericgalbarn/Documents/fintech-intelligence-platform/dbt_project/dbt_project.yml> not found
+
+[0m11:21:07.811804 [debug] [MainThread]: Resource report: {"command_name": "debug", "command_success": false, "command_wall_clock_time": 7.1483073, "process_in_blocks": "0", "process_kernel_time": 0.350459, "process_mem_max_rss": "353501184", "process_out_blocks": "0", "process_user_time": 2.176895}
+[0m11:21:07.812263 [debug] [MainThread]: Command `dbt debug` failed at 11:21:07.812171 after 7.15 seconds
+[0m11:21:07.812549 [debug] [MainThread]: Connection 'debug' was properly closed.
+[0m11:21:07.812856 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1070a55b0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1082346d0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1243fa340>]}
+[0m11:21:07.813238 [debug] [MainThread]: Flushing usage events
+[0m11:21:08.842488 [debug] [MainThread]: An error was encountered while trying to flush usage events

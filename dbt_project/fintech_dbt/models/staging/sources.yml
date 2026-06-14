@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: fip_dwh
+    database: fintech-intelligence-platform
+    schema: fip_dwh
+    tables:
+      - name: bronze_customers
+      - name: bronze_transactions
