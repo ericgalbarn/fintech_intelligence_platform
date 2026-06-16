@@ -296,6 +296,55 @@ Starting from Week 6, the dashboard includes **AI-generated daily insights** pow
 
 > 💡 **Key Takeaway:** This feature demonstrates the ability to combine **traditional BI** with **Generative AI** to create a proactive, insight-driven decision-making tool.
 
+## ☁️ Cloud Deployment
+
+The entire pipeline is now **fully automated** on Google Cloud Platform:
+
+### Architecture
+- **dbt-job**: Runs dbt transformations daily at 6:00 AM (US Central Time)
+- **python-job**: Runs ML predictions and AI insights at 6:15 AM
+- **Cloud Scheduler**: Triggers both jobs automatically
+- **Artifact Registry**: Stores Docker images for dbt and Python
+- **BigQuery**: Data warehouse (already set up)
+
+### How it works
+1. At 6:00 AM, Cloud Scheduler triggers `dbt-job`
+2. `dbt-job` runs `dbt run` to update Bronze → Silver → Gold layers
+3. At 6:15 AM, Cloud Scheduler triggers `python-job`
+4. `python-job` runs:
+   - XGBoost churn predictions → saves to `churn_predictions` table
+   - Prophet revenue forecast → saves to `forecast` table
+   - Ollama Cloud AI insights → saves to `daily_insights` table
+5. Power BI dashboard refreshes automatically
+
+### Technologies used for deployment
+- **Cloud Run Jobs**: Serverless execution of dbt and Python containers
+- **Cloud Scheduler**: Cron-based job scheduling
+- **Artifact Registry**: Docker image storage
+- **Cloud Build**: Container builds (optional)
+
+> 💡 **All services are within GCP's free tier limits**, so the pipeline runs at **zero cost** for light usage.
+
+### Repository Structure (updated)
+```text
+fintech-intelligence-platform/
+├── README.md
+├── .gitignore
+├── .gc/                           # Service account keys (git ignored)
+├── Dockerfile.dbt                 # Container for dbt
+├── Dockerfile.python              # Container for ML + AI scripts
+├── workflow.yaml                  # (optional) Workflow definition
+├── dbt_project/
+│   └── fintech_dbt/
+│       ├── models/
+│       ├── tests/
+│       └── dbt_project.yml
+└── scripts/
+    ├── run_ml_ai.py               # Combined ML + AI script (for Cloud Run)
+    ├── predict_churn.py
+    ├── run_forecast.py
+    └── generate_insights.py
+
 ### 🛠️ Technology Stack & Architecture
 ```
 [Data Sources]

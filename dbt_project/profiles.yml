@@ -1,0 +1,14 @@
+fintech_dbt:
+  outputs:
+    dev:
+      dataset: fip_dwh
+      job_execution_timeout_seconds: 300
+      job_retries: 1
+      keyfile: /Users/ericgalbarn/Documents/fintech-intelligence-platform/.gc/fintech-intelligence-platform-14a6170252ba.json
+      location: asia-southeast1
+      method: service-account
+      priority: interactive
+      project: fintech-intelligence-platform
+      threads: 4
+      type: bigquery
+  target: dev

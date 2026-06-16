@@ -1,0 +1,17 @@
+FROM python:3.11-slim
+
+# Install dbt and adapter
+RUN pip install --no-cache-dir dbt-core dbt-bigquery
+
+# Create working space
+WORKDIR /app
+
+# Copy the whole dbt project into container
+COPY dbt_project/ /app/
+COPY dbt_project/profiles.yml /root/.dbt/profiles.yml
+
+# Copy JSON key (will be mounted when running)
+# Don't copy directly into image for security
+
+# Run dbt run by default
+CMD ["dbt", "run"]
