@@ -23,7 +23,7 @@
 | **Page 3 – Churn Drivers** | (Placeholder – will be updated after Week 5 with XGBoost feature importance) |
 | **Page 4 – What-if Scenario** | Discount parameter slicer, projected revenue vs current revenue, revenue impact |
 
-🔗 **[Live Dashboard](https://app.powerbi.com/links/86wV5runL7?ctid=246d1169-d80e-4f80-b3ff-c334c35a8798&pbi_source=linkShare)]**
+🔗 **[Live Dashboard](https://app.powerbi.com/links/-2dyE26wD7?ctid=246d1169-d80e-4f80-b3ff-c334c35a8798&pbi_source=linkShare)]**
 
 ---
 
@@ -54,7 +54,7 @@ The project follows a **4‑level analytical framework**:
 | `bronze_customers` | Vietnam Bank Churn Dataset (Kaggle) | 80,000 | `id`, `exit` (churn label), `customer_segment`, `loyalty_level`, `risk_score` |
 | `bronze_transactions` | Financial Transaction Fraud Dataset (Kaggle) | 5,000,000 | `transaction_id`, `amount`, `is_fraud`, `location`, `timestamp` |
 
-### Silver Layer (Cleaned data) – ✅ Completed in Week 2
+### Silver Layer (Cleaned data) 
 
 | Table | Description | Rows |
 |-------|-------------|------|
@@ -66,7 +66,7 @@ The project follows a **4‑level analytical framework**:
 - Cast data types (`timestamp` string → `TIMESTAMP`, `is_fraud` boolean → `INT64`)
 - Filter invalid records (age out of range, negative amounts, null timestamps)
 
-### Gold Layer (Ready for BI) – ✅ Completed in Week 3
+### Gold Layer (Ready for BI) 
 
 | Table | Type | Description | Rows |
 |-------|------|-------------|------|
