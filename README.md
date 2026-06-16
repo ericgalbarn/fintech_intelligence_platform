@@ -12,18 +12,19 @@
 | **Goal** | Build an automated data platform that helps a FinTech company proactively identify customers at risk of churning, forecast cash flow, and generate daily business insights. |
 | **Stack** | Google BigQuery (Data Warehouse), dbt (transformation), Airflow (orchestration), Power BI (dashboard), Ollama Cloud (AI insights) |
 | **Architecture** | Medallion (Bronze → Silver → Gold) + Hybrid (local orchestration + cloud processing) |
-| **Status** | ✅ **Week 1 completed:** Data ingestion, EDA, initial insights<br>✅ **Week 2 completed:** dbt setup, staging models (Silver layer)<br>✅ **Week 3 completed:** Intermediate & Gold models (star schema)<br>✅ **Week 4 completed:** Power BI dashboard (4 pages), live public link |
 
 ## 📊 Dashboard Pages
 
 | Page | Content |
 |------|---------|
-| **Page 1 – Executive Overview** | KPIs (Total Revenue, Churn Rate, Avg Transaction, Total Transactions), Revenue trend line chart, Revenue by customer segment, Date range slicer |
+| **Page 1 – Executive Overview** | KPIs, Revenue trend + forecast, Revenue by segment | ➕ Added 90-day revenue forecast with confidence interval |
 | **Page 2 – Customer Health** | Churn rate by loyalty level, risk segment, cluster group; Customer profile table; Segment slicer |
-| **Page 3 – Churn Drivers** | (Placeholder – will be updated after Week 5 with XGBoost feature importance) |
+| **Page 3 – Churn Drivers** | Feature importance from XGBoost, Risk level KPI cards, Risk slicer | 🆕 ML-driven insights |
 | **Page 4 – What-if Scenario** | Discount parameter slicer, projected revenue vs current revenue, revenue impact |
+| **Page 5 – AI Insights** | Daily AI-generated business summary | 🆕 Powered by Ollama Cloud |
 
-🔗 **[Live Dashboard](https://app.powerbi.com/links/-2dyE26wD7?ctid=246d1169-d80e-4f80-b3ff-c334c35a8798&pbi_source=linkShare)]**
+
+🔗 **[Live Dashboard](https://app.powerbi.com/links/-2dyE26wD7?ctid=246d1169-d80e-4f80-b3ff-c334c35a8798&pbi_source=linkShare)**
 
 ---
 
@@ -31,12 +32,12 @@
 
 The project follows a **4‑level analytical framework**:
 
-| Level | Question | Status |
-|-------|----------|--------|
-| **Descriptive** | Who is churning? | ✅ Completed (see insights below) |
-| **Diagnostic** | Why are they churning? | 🔄 In progress (feature engineering & dbt models) |
-| **Predictive** | Who will churn next month? | 📅 Planned (XGBoost model) |
-| **Prescriptive** | What actions to take? | 📅 Planned (dashboard recommendations + AI insights) |
+| Level | Question |
+|-------|----------|
+| **Descriptive** | Who is churning? |
+| **Diagnostic** | Why are they churning? |
+| **Predictive** | Who will churn next month? |
+| **Prescriptive** | What actions to take? | 
 
 **Key business metrics targeted:**  
 - Reduce churn rate by 10–15%  
@@ -274,6 +275,27 @@ fintech_dbt/
 
 > 📌 **Key insight:** Revenue is projected to remain stable around 4.8M VND/day with minimal seasonal fluctuation in the next quarter.
 
+## 🤖 AI Insights
+
+Starting from Week 6, the dashboard includes **AI-generated daily insights** powered by **Ollama Cloud**.
+
+### How it works:
+1. **KPI Extraction:** A Python script runs daily to fetch key metrics from BigQuery (e.g., high-risk customers, churn rate, revenue).
+2. **AI Generation:** The data is sent to Ollama Cloud (GPT-OSS model) which generates a structured business summary in Vietnamese.
+3. **Dashboard Display:** The insight is stored in BigQuery and displayed on the **AI Insights** page of the Power BI dashboard.
+
+### Sample Insight (translated):
+
+> 📊 **General Situation:** Currently, there are 1,493 High-Risk customers (1.9%) and 18,507 Medium-Risk customers (23.1%). The average churn rate is 18.00%.  
+> ⚠️ **Notable Points:** Mass segment customers have a churn rate of 39.48%, 13 times higher than Priority segment.  
+> 💡 **Recommendations:** Focus retention campaigns on Mass and High-Risk segments. Send 10% discount vouchers to High-Risk customers. Monitor Medium-Risk group closely over the next 30 days.
+
+### Dashboard Page:
+- The AI Insight is displayed on a dedicated **"AI Insights"** page using the **HTML Content** visual for clean, modern formatting.
+- The page automatically refreshes when new data is added to BigQuery.
+
+> 💡 **Key Takeaway:** This feature demonstrates the ability to combine **traditional BI** with **Generative AI** to create a proactive, insight-driven decision-making tool.
+
 ### 🛠️ Technology Stack & Architecture
 ```
 [Data Sources]
@@ -298,12 +320,3 @@ fintech_dbt/
    ├── Power BI Service → interactive dashboard (4 pages)
    └── Ollama Cloud → AI‑generated daily insights
 ```
-
-## 🚀 Next Steps
-
-| Week | Focus | Deliverables | Status |
-|------|-------|--------------|--------|
-| **Week 5** | Machine Learning (XGBoost + Prophet) | Churn predictions, cash flow forecast, feature importance for dashboard | 📅 Planned |
-| **Week 6** | AI Insights (Ollama) + integration | Automated daily insights on dashboard | 📅 Planned |
-| **Week 7** | Containerization (Cloud Run Jobs) | dbt & Python scripts on cloud serverless | 📅 Planned |
-| **Week 8** | Orchestration, video demo, CV | Complete portfolio project | 📅 Planned |
