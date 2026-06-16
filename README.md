@@ -12,7 +12,18 @@
 | **Goal** | Build an automated data platform that helps a FinTech company proactively identify customers at risk of churning, forecast cash flow, and generate daily business insights. |
 | **Stack** | Google BigQuery (Data Warehouse), dbt (transformation), Airflow (orchestration), Power BI (dashboard), Ollama Cloud (AI insights) |
 | **Architecture** | Medallion (Bronze → Silver → Gold) + Hybrid (local orchestration + cloud processing) |
-| **Status** | ✅ **Week 1 completed:** Data ingestion, exploration, quality checks, initial insights<br>✅ **Week 2 completed:** dbt setup, staging models, Silver layer created<br>✅ **Week 3 completed:** Intermediate & Gold models, star schema for BI |
+| **Status** | ✅ **Week 1 completed:** Data ingestion, EDA, initial insights<br>✅ **Week 2 completed:** dbt setup, staging models (Silver layer)<br>✅ **Week 3 completed:** Intermediate & Gold models (star schema)<br>✅ **Week 4 completed:** Power BI dashboard (4 pages), live public link |
+
+## 📊 Dashboard Pages (Week 4)
+
+| Page | Content |
+|------|---------|
+| **Page 1 – Executive Overview** | KPIs (Total Revenue, Churn Rate, Avg Transaction, Total Transactions), Revenue trend line chart, Revenue by customer segment, Date range slicer |
+| **Page 2 – Customer Health** | Churn rate by loyalty level, risk segment, cluster group; Customer profile table; Segment slicer |
+| **Page 3 – Churn Drivers** | (Placeholder – will be updated after Week 5 with XGBoost feature importance) |
+| **Page 4 – What-if Scenario** | Discount parameter slicer, projected revenue vs current revenue, revenue impact |
+
+🔗 **[Live Dashboard](https://app.powerbi.com/links/86wV5runL7?ctid=246d1169-d80e-4f80-b3ff-c334c35a8798&pbi_source=linkShare)]**
 
 ---
 
@@ -229,3 +240,12 @@ fintech_dbt/
    ├── Power BI Service → interactive dashboard (4 pages)
    └── Ollama Cloud → AI‑generated daily insights
 ```
+
+## 🚀 Next Steps
+
+| Week | Focus | Deliverables | Status |
+|------|-------|--------------|--------|
+| **Week 5** | Machine Learning (XGBoost + Prophet) | Churn predictions, cash flow forecast, feature importance for dashboard | 📅 Planned |
+| **Week 6** | AI Insights (Ollama) + integration | Automated daily insights on dashboard | 📅 Planned |
+| **Week 7** | Containerization (Cloud Run Jobs) | dbt & Python scripts on cloud serverless | 📅 Planned |
+| **Week 8** | Orchestration, video demo, CV | Complete portfolio project | 📅 Planned |
