@@ -14,7 +14,7 @@
 | **Architecture** | Medallion (Bronze → Silver → Gold) + Hybrid (local orchestration + cloud processing) |
 | **Status** | ✅ **Week 1 completed:** Data ingestion, EDA, initial insights<br>✅ **Week 2 completed:** dbt setup, staging models (Silver layer)<br>✅ **Week 3 completed:** Intermediate & Gold models (star schema)<br>✅ **Week 4 completed:** Power BI dashboard (4 pages), live public link |
 
-## 📊 Dashboard Pages (Week 4)
+## 📊 Dashboard Pages
 
 | Page | Content |
 |------|---------|
@@ -168,7 +168,7 @@ dbt (data build tool) transforms raw data in BigQuery using SQL, with software e
 - **Testing** – Built-in data quality tests (not null, unique, accepted values)
 - **Documentation** – Auto-generated data catalog
 
-### Week 2: Staging Models (Silver Layer)
+### Staging Models (Silver Layer)
 
 | Model | Source | Transformations |
 |-------|--------|-----------------|
@@ -176,7 +176,7 @@ dbt (data build tool) transforms raw data in BigQuery using SQL, with software e
 | `stg_transactions` | `bronze_transactions` | Converted timestamp string to TIMESTAMP, filtered amount > 0, fraud boolean → integer |
 
 
-### Week 3: Intermediate & Gold Models (Star Schema)
+### Intermediate & Gold Models (Star Schema)
 
 | Model | Type | Description |
 |-------|------|-------------|
@@ -216,6 +216,64 @@ fintech_dbt/
 ├── dbt_project.yml
 └── README.md
 ```
+## 🤖 Machine Learning
+
+### 1. Churn Prediction Model (XGBoost)
+
+**Objective:** Predict which customers are likely to churn in the next month.
+
+**Model Performance:**
+| Metric | Score |
+|--------|-------|
+| Accuracy | 83.84% |
+| AUC-ROC | 85.59% |
+| Precision | 60.15% |
+| Recall | 30.24% |
+
+> 📌 **Interpretation:** The model can distinguish between churn and non-churn customers with 85.6% accuracy (AUC-ROC). While recall is moderate (30%), this is typical for imbalanced churn data (only 18% churn rate).
+
+#### Feature Importance – Top Drivers of Churn
+
+![Feature Importance](images/feature_importance.png)
+
+| Rank | Feature | Importance | Business Insight |
+|------|---------|------------|------------------|
+| 1 | **`active_member`** | 31.9% | 🔴 **Most critical!** Inactive customers are far more likely to churn. |
+| 2 | **`risk_score`** | 26.6% | 🔴 High credit risk → high churn probability. |
+| 3 | **`customer_segment`** | 9.2% | Mass segment churns much more than Priority. |
+| 4 | **`monthly_income`** | 9.0% | Lower income → higher churn. |
+| 5 | **`risk_segment`** | 6.9% | Medium risk → higher churn than Low risk. |
+
+> 💡 **Key Business Actions:**
+> - **Active member** is #1 driver → launch weekly engagement campaigns (vouchers, loyalty points).
+> - **Risk_score** is #2 → separate Medium risk group for special retention programs.
+> - **Mass segment** has 39% churn rate → focus retention resources here.
+
+#### Churn Predictions Summary
+
+| Risk Level | Customers | % of Total | Action Required |
+|------------|-----------|------------|-----------------|
+| **High** (prob > 70%) | 1,493 | 1.9% | 🔴 Immediate intervention needed |
+| **Medium** (30-70%) | 18,507 | 23.1% | 🟡 Monitor closely |
+| **Low** (prob < 30%) | 60,000 | 75.0% | 🟢 Safe |
+
+> 📌 **Total at-risk customers (Medium + High): ~20,000 (25%)** – a critical insight for retention strategy.
+
+---
+
+### 2. Revenue Forecasting (Prophet)
+
+**Objective:** Forecast daily revenue for the next 90 days.
+
+![Revenue Forecast](images/forecast_plot.png)
+
+**Forecast Summary:**
+- **Forecast period:** 90 days (Jan–Mar 2024)
+- **Average daily revenue (forecast):** ~4.8 million VND/day
+- **Confidence interval:** ±0.2 million VND (upper/lower bounds)
+
+> 📌 **Key insight:** Revenue is projected to remain stable around 4.8M VND/day with minimal seasonal fluctuation in the next quarter.
+
 ### 🛠️ Technology Stack & Architecture
 ```
 [Data Sources]
