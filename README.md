@@ -188,7 +188,7 @@ Forecast Plot
 
 ## Page 1 – Executive Overview
 
-[[images/page1_executive.png]](https://images/page1_executive.png])
+![How is the business performing overall](https://images/page1_executive.png)
 
 **Key Features:**
 
@@ -200,7 +200,7 @@ Forecast Plot
 
 ## Page 2 – Customer Health
 
-[[images/page2_health.png]](https://images/page2_health.png]) 
+[Which segments are at risk?](https://images/page2_health.png) 
 
 **Key Features:**
 
@@ -213,7 +213,7 @@ Forecast Plot
 
 ## Page 3 – Churn Drivers
 
-[[images/page3_drivers.png]](https://images/page3_drivers.png])
+[Why are customers leaving?](https://images/page3_drivers.png)
 
 **Key Features:**
 
@@ -224,7 +224,7 @@ Forecast Plot
 
 ## Page 4 – What-if Scenario
 
-[[images/page4_whatif.png]](https://images/page4_whatif.png])
+[What happens if we change the discount?](https://images/page4_whatif.png)
 
 **Key Features:**
 
@@ -236,7 +236,7 @@ Forecast Plot
 
 ## Page 5 – AI Insights
 
-[[images/page5_ai.png]](https://images/page5_ai.png])
+[AI Insights](https://images/page5_ai.png)
 
 **Key Features:**
 
