@@ -4,7 +4,7 @@ fintech_dbt:
       dataset: fip_dwh
       job_execution_timeout_seconds: 300
       job_retries: 1
-      keyfile: /Users/ericgalbarn/Documents/fintech-intelligence-platform/.gc/fintech-intelligence-platform-14a6170252ba.json
+      keyfile: /app/.gc/key.json
       location: asia-southeast1
       method: service-account
       priority: interactive

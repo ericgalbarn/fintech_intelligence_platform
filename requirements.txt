@@ -1,8 +1,0 @@
-dbt-core
-dbt-bigquery
-google-cloud-bigquery
-pandas
-pandas-gbq
-xgboost
-prophet
-ollama

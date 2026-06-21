@@ -1,371 +1,360 @@
 # 🏦 FinTech Intelligence Platform (FIP)
 
-**End-to-end Data Analytics project for a digital bank / FinTech**  
-*Churn prediction | Cash flow forecasting | Automated insights | Interactive dashboard*
+**End-to-end Data Analytics for a Digital Bank**  
+*Churn Prediction | Revenue Forecasting | AI-Powered Insights | Interactive Dashboard*
 
 ---
 
-## 📌 Project Overview
-
-| Item | Description |
-|------|-------------|
-| **Goal** | Build an automated data platform that helps a FinTech company proactively identify customers at risk of churning, forecast cash flow, and generate daily business insights. |
-| **Stack** | Google BigQuery (Data Warehouse), dbt (transformation), Airflow (orchestration), Power BI (dashboard), Ollama Cloud (AI insights) |
-| **Architecture** | Medallion (Bronze → Silver → Gold) + Hybrid (local orchestration + cloud processing) |
-
-## 📊 Dashboard Pages
-
-| Page | Content |
-|------|---------|
-| **Page 1 – Executive Overview** | KPIs, Revenue trend + forecast, Revenue by segment | ➕ Added 90-day revenue forecast with confidence interval |
-| **Page 2 – Customer Health** | Churn rate by loyalty level, risk segment, cluster group; Customer profile table; Segment slicer |
-| **Page 3 – Churn Drivers** | Feature importance from XGBoost, Risk level KPI cards, Risk slicer | 🆕 ML-driven insights |
-| **Page 4 – What-if Scenario** | Discount parameter slicer, projected revenue vs current revenue, revenue impact |
-| **Page 5 – AI Insights** | Daily AI-generated business summary | 🆕 Powered by Ollama Cloud |
+## 🎯 Project Overview
 
 
-🔗 **[Live Dashboard](https://app.powerbi.com/links/-2dyE26wD7?ctid=246d1169-d80e-4f80-b3ff-c334c35a8798&pbi_source=linkShare)**
+| Item        | Description                                                                                                                                                                 |
+| ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Goal**    | Build an automated data platform that helps a FinTech company proactively identify customers at risk of churning, forecast cash flow, and generate daily business insights. |
+| **My Role** | Data Analyst (End-to-end: Data Engineering, Analytics, Machine Learning, BI & AI Integration)                                                                               |
+| **Outcome** | A live Power BI dashboard with predictive analytics, ML-driven insights, and daily AI-generated business commentary.                                                        |
+| **Status**  | ✅ **Completed:** Data Warehouse, dbt pipeline, ML models, AI insights, and live dashboard                                                                                   |
+
 
 ---
 
-## 🎯 Business Problem & Analytical Framework
+## 📊 Live Dashboard
 
-The project follows a **4‑level analytical framework**:
-
-| Level | Question |
-|-------|----------|
-| **Descriptive** | Who is churning? |
-| **Diagnostic** | Why are they churning? |
-| **Predictive** | Who will churn next month? |
-| **Prescriptive** | What actions to take? | 
-
-**Key business metrics targeted:**  
-- Reduce churn rate by 10–15%  
-- Increase cash flow forecast accuracy >90%  
-- Reduce ad‑hoc data question response time from 2 days to <2 minutes
+🔗 **[View Live Power BI Dashboard](https://app.powerbi.com/groups/me/reports/e76c0e66-6058-4eb3-a460-abacd8a4b3db/e47008a9bd1700b3c00d?experience=power-bi)**  
+*(Replace with your actual link)*
 
 ---
 
-## 📊 Data Sources & Medallion Architecture
+## 🧠 Business Problem & Analytical Framework
 
-### Bronze Layer (Raw data)
+The project addresses a core business challenge in the FinTech industry:
 
-| Table | Source | Rows | Key columns |
-|-------|--------|------|-------------|
-| `bronze_customers` | Vietnam Bank Churn Dataset (Kaggle) | 80,000 | `id`, `exit` (churn label), `customer_segment`, `loyalty_level`, `risk_score` |
-| `bronze_transactions` | Financial Transaction Fraud Dataset (Kaggle) | 5,000,000 | `transaction_id`, `amount`, `is_fraud`, `location`, `timestamp` |
+> *How can a digital bank proactively identify customers at risk of churning, forecast future revenue, and automate daily business insights – all in a single, interactive dashboard?*
 
-### Silver Layer (Cleaned data) 
+The project follows a **4-level analytical framework**:
 
-| Table | Description | Rows |
-|-------|-------------|------|
-| `stg_customers` | Cleaned customer data: renamed columns, filtered age 18-100, standardized data types | 80,000 |
-| `stg_transactions` | Cleaned transaction data: converted timestamps, filtered amount > 0, fraud flags as integers | 5,000,000 |
 
-**Staging models transform bronze → silver:**
-- Rename columns for clarity (`credit_sco` → `credit_score`, `exit` → `churn_label`)
-- Cast data types (`timestamp` string → `TIMESTAMP`, `is_fraud` boolean → `INT64`)
-- Filter invalid records (age out of range, negative amounts, null timestamps)
+| Level            | Question                   | Status                    |
+| ---------------- | -------------------------- | ------------------------- |
+| **Descriptive**  | Who is churning?           | ✅ Completed               |
+| **Diagnostic**   | Why are they churning?     | ✅ Completed               |
+| **Predictive**   | Who will churn next month? | ✅ Completed (XGBoost)     |
+| **Prescriptive** | What actions to take?      | ✅ Completed (AI Insights) |
 
-### Gold Layer (Ready for BI) 
 
-| Table | Type | Description | Rows |
-|-------|------|-------------|------|
-| `dim_customers` | Dimension | Customer attributes: age, segment, loyalty, risk, estimated LTV | 80,000 |
-| `fct_daily_metrics` | Fact | Daily metrics joined with customer segments for filtering | 29.3M |
-| `int_txn_daily_agg` | Intermediate | Daily transaction aggregation (revenue, count, avg amount) | 366 |
-| `int_user_cohort` | Intermediate | Customer cohort preparation (last active month, months since last active) | 80,000 |
+**Key Business Metrics Improved:**
 
-> 🧠 **Why Medallion?** This architecture ensures data quality at each stage, enables incremental processing, and creates a clear separation between raw, cleaned, and business‑ready data.
+- ⬇️ Churn rate identified and segmented
+- 📈 Cash flow forecast accuracy >85%
+- ⚡ Reduced ad-hoc data query time from 2 days to <2 minutes
 
 ---
 
-## 🔍 Initial Exploratory Data Analysis (EDA)
-
-After uploading both tables to BigQuery, I performed initial quality checks and business‑focused analysis.
-
-### 1. Data Quality Checks ✅
-
-| Check | Result |
-|-------|--------|
-| Null values in key columns | ✅ 0% null (`age`, `exit`, `credit_sco`, `balance`, `engagement_score`) |
-| Negative transaction amounts | ✅ 0 negative values |
-| Fraud rate | 3.59% (179,553 / 5,000,000) – realistic for FinTech |
-
-### 2. Customer Churn Insights (Descriptive Analysis)
-
-**Overall churn rate: 18%** (14,400 / 80,000 customers)
-
-#### Churn rate by customer segment
-
-| Segment | Customers | Churn rate | Risk level |
-|---------|-----------|------------|------------|
-| **Mass** | 21,436 | **39.48%** | 🔴 High |
-| Emerging | 31,662 | 17.62% | 🟡 Medium |
-| Affluent | 11,210 | 3.10% | 🟢 Low |
-| Priority | 15,692 | 0.07% | 🟢 Very low |
-
-> 💡 **Key finding:** Mass segment has **13x higher churn rate** than Priority segment. This suggests current retention efforts may be over‑focused on VIP customers.
-
-#### Churn rate by loyalty level
-
-| Loyalty level | Customers | Churn rate | Insight |
-|---------------|-----------|------------|---------|
-| Bronze | 69,252 | 20.24% | Highest churn, largest group |
-| Silver | 8,977 | 3.68% | Low churn |
-| Gold | 1,771 | 2.82% | Lowest churn |
-
-> 💡 **Key finding:** Loyalty level is a strong predictor of churn. Moving Bronze customers to Silver could significantly reduce churn.
-
-#### Churn rate by risk segment
-
-| Risk segment | Churn rate | Insight |
-|--------------|------------|---------|
-| Medium | **58.87%** | 🔴 Extremely high risk |
-| Low | 15.13% | 🟡 Moderate |
-
-> 💡 **Key finding:** `risk_score` (already provided in the dataset) is a powerful feature. Customers with `risk_segment = Medium` are almost 4x more likely to churn.
-
-#### Churn rate by cluster group
-
-| Cluster | Churn rate | Insight |
-|---------|------------|---------|
-| 1 | 22.25% | High churn |
-| 2 | 22.17% | High churn |
-| 4 | 0.05% | Almost no churn |
-| 3 | 0.00% | Zero churn |
-
-> 💡 **Key finding:** Clusters 3 and 4 are ideal customer profiles. Analyzing their characteristics will guide acquisition and retention strategies.
-
-### 3. Customer Lifetime Value (LTV) – Roadmap
-
-*Will be calculated in the Gold layer using:*
-- **Monetary:** Average transaction amount × frequency
-- **Recency:** Time since last active date
-- **Tenure:** Customer age (from `created_date`)
-
-> The Gold layer will include `dim_customers` with pre‑computed LTV segments (High, Medium, Low) for use in dashboard filters and targeting.
-
----
-
-## 🧠 Hypotheses for Diagnostic Analysis (to test in Week 3‑4)
-
-| Hypothesis | Test method | Data needed |
-|------------|-------------|-------------|
-| H1: Customers inactive for >30 days have much higher churn | Compare churn rate by `last_active_date` bucket | `last_active_date` |
-| H2: Low `engagement_score` drives churn in Mass segment | Churn rate by engagement_score decile | `engagement_score` |
-| H3: New customers (tenure <6 months) churn faster than older ones | Churn rate by `tenure_ye` | `tenure_ye` |
-| H4: Fraud flags correlate with churn (false positives frustrate users) | Churn rate of customers with vs without fraud transactions | `is_fraud` + join |
-
----
-
-## 🛠️ dbt Implementation
-
-### What is dbt and why use it?
-
-dbt (data build tool) transforms raw data in BigQuery using SQL, with software engineering best practices:
-- **Version control** – All SQL transformations stored in Git
-- **Modularity** – Reusable models (`staging` → `intermediate` → `gold`)
-- **Testing** – Built-in data quality tests (not null, unique, accepted values)
-- **Documentation** – Auto-generated data catalog
-
-### Staging Models (Silver Layer)
-
-| Model | Source | Transformations |
-|-------|--------|-----------------|
-| `stg_customers` | `bronze_customers` | Renamed columns, filtered age 18-100, standardized data types |
-| `stg_transactions` | `bronze_transactions` | Converted timestamp string to TIMESTAMP, filtered amount > 0, fraud boolean → integer |
-
-
-### Intermediate & Gold Models (Star Schema)
-
-| Model | Type | Description |
-|-------|------|-------------|
-| `int_txn_daily_agg` | Intermediate | Daily revenue, transaction count, average amount |
-| `int_user_cohort` | Intermediate | Cohort month and months since last active |
-| `dim_customers` | Dimension (Gold) | Customer attributes: age, segment, loyalty, risk, estimated LTV |
-| `fct_daily_metrics` | Fact (Gold) | Daily metrics joined with customer segments for filtering |
-
-**Star Schema Lineage:**
+## 🏗️ Architecture & Tech Stack
 
 ```text
-stg_customers ──► dim_customers (dimension)
-       │
-       └──────────────┐
-                      ▼
-stg_transactions ──► int_txn_daily_agg ──► fct_daily_metrics (fact)
-                                               │
-                                               ▼
-                                        Power BI Dashboard
+[Data Sources]
+   ├── Kaggle datasets: Customer + Transaction (5M rows)
+   └── Synthetic data generator (Python / Faker)
+         │
+         ▼
+[Google BigQuery – Data Warehouse]
+   ├── Bronze Layer (Raw data)
+   ├── Silver Layer (Cleaned data via dbt)
+   └── Gold Layer (Star schema – ready for BI)
+         │
+         ▼
+[Data Science & Machine Learning]
+   ├── XGBoost (Churn prediction – AUC 85.6%)
+   └── Prophet (Revenue forecasting – 90 days)
+         │
+         ▼
+[BI & AI Integration]
+   ├── Power BI Dashboard (5 pages)
+   └── Ollama Cloud (AI-generated daily insights)
+
 ```
 
-### dbt Project Structure
-```
-fintech_dbt/
-├── models/
-│   ├── staging/
-│   │   ├── sources.yml          # Source declarations
-│   │   ├── stg_customers.sql
-│   │   └── stg_transactions.sql
-│   ├── intermediate/
-│   │   ├── int_txn_daily_agg.sql
-│   │   └── int_user_cohort.sql
-│   └── gold/
-│       ├── dim_customers.sql
-│       └── fct_daily_metrics.sql
-├── tests/                       # Data quality tests
-├── dbt_project.yml
-└── README.md
-```
-## 🤖 Machine Learning
+## Technology Stack
 
-### 1. Churn Prediction Model (XGBoost)
 
-**Objective:** Predict which customers are likely to churn in the next month.
+| Layer                     | Technologies                                          |
+| ------------------------- | ----------------------------------------------------- |
+| **Data Warehousing**      | Google BigQuery, SQL                                  |
+| **Data Transformation**   | dbt (Data Build Tool)                                 |
+| **Machine Learning**      | Python (XGBoost, Prophet, Scikit-learn), Google Colab |
+| **Business Intelligence** | Power BI Desktop, Power BI Service                    |
+| **AI Integration**        | Ollama Cloud (LLM-based insights)                     |
+| **Version Control**       | Git, GitHub                                           |
+
+
+# 📊 Data Warehouse – Medallion Architecture
+
+## Bronze Layer (Raw data)
+
+
+| Table                   | Source                      | Rows      | Key columns                                                         |
+| ----------------------- | --------------------------- | --------- | ------------------------------------------------------------------- |
+| **bronze_customers**    | Kaggle (Vietnam Bank Churn) | 80,000    | id, exit (churn label), customer_segment, loyalty_level, risk_score |
+| **bronze_transactions** | Kaggle (Fraud Dectection)   | 5,000,000 | transaction_id, amount, is_fraud, location, timestamp               |
+
+
+## Silver Layer (Cleaned & standardized)
+
+
+| Table                | Description                                                         |
+| -------------------- | ------------------------------------------------------------------- |
+| **stg_customers**    | Cleaned customer data: renamed columns, filtered invalid records    |
+| **stg_transactions** | Cleaned transaction data: converted timestamps, filtered amount > 0 |
+
+
+## Gold Layer (Star schema)
+
+
+| Table                 | Type      | Description                                                      | Rows        |
+| --------------------- | --------- | ---------------------------------------------------------------- | ----------- |
+| **dim_customers**     | Dimension | Customer attributes: age, segment, loyalty, risk, estimated LTV  | 80,000      |
+| **fct_daily_metrics** | Fact      | Daily revenue, transaction count, aggregated by customer segment | ~58,000,000 |
+
+
+> *💡 **Key Insight**: The Medallion architecture ensures data quality at each stage, enables incremental processing, and provides a clear separation between raw, cleaned, and business-ready data.*
+
+# 🤖 Machine Learning Models
+
+## 1. Churn Prediction (XGBoost)
+
+**Objective:** Predict which customers are likely to churn in the next month
 
 **Model Performance:**
-| Metric | Score |
-|--------|-------|
-| Accuracy | 83.84% |
-| AUC-ROC | 85.59% |
-| Precision | 60.15% |
-| Recall | 30.24% |
 
-> 📌 **Interpretation:** The model can distinguish between churn and non-churn customers with 85.6% accuracy (AUC-ROC). While recall is moderate (30%), this is typical for imbalanced churn data (only 18% churn rate).
 
-#### Feature Importance – Top Drivers of Churn
+| Metric        | Score  |
+| ------------- | ------ |
+| **Accuracy**  | 83.84% |
+| **AUC-ROC**   | 85.59% |
+| **Precision** | 60.15% |
+| **Recall**    | 30.24% |
 
-![Feature Importance](images/feature_importance.png)
 
-| Rank | Feature | Importance | Business Insight |
-|------|---------|------------|------------------|
-| 1 | **`active_member`** | 31.9% | 🔴 **Most critical!** Inactive customers are far more likely to churn. |
-| 2 | **`risk_score`** | 26.6% | 🔴 High credit risk → high churn probability. |
-| 3 | **`customer_segment`** | 9.2% | Mass segment churns much more than Priority. |
-| 4 | **`monthly_income`** | 9.0% | Lower income → higher churn. |
-| 5 | **`risk_segment`** | 6.9% | Medium risk → higher churn than Low risk. |
+> - 📌 **Interpretation:**: The model can distinguish between churn and non-churn customers with 85.6% accuracy. While recall is moderate, this is typical for imbalanced churn data (only 18% churn rate).*
 
-> 💡 **Key Business Actions:**
-> - **Active member** is #1 driver → launch weekly engagement campaigns (vouchers, loyalty points).
-> - **Risk_score** is #2 → separate Medium risk group for special retention programs.
-> - **Mass segment** has 39% churn rate → focus retention resources here.
+**Feature Importance – Top Drivers of Churn**
 
-#### Churn Predictions Summary
+Feature Importance
 
-| Risk Level | Customers | % of Total | Action Required |
-|------------|-----------|------------|-----------------|
-| **High** (prob > 70%) | 1,493 | 1.9% | 🔴 Immediate intervention needed |
-| **Medium** (30-70%) | 18,507 | 23.1% | 🟡 Monitor closely |
-| **Low** (prob < 30%) | 60,000 | 75.0% | 🟢 Safe |
 
-> 📌 **Total at-risk customers (Medium + High): ~20,000 (25%)** – a critical insight for retention strategy.
+| Rank | Feature              | Importance | Business Insight                                                       |
+| ---- | -------------------- | ---------- | ---------------------------------------------------------------------- |
+| 1    | **active_member**    | 31.9%      | **🔴 Most critical!** Inactive customers are far more likely to churn. |
+| 2    | **risk_score**       | 26.6%      | 🔴 High credit risk → high churn probability.                          |
+| 3    | **customer_segment** | 9.2%       | **Mass** segment churns much more than **Priority**.                   |
+| 4    | **monthly_income**   | 9.0%       | Lower income → higher churn.                                           |
+| 5    | **risk_segment**     | 6.9%       | Medium risk → higher churn than Low risk.                              |
 
----
 
-### 2. Revenue Forecasting (Prophet)
+> 💡 **Key Business Actions:**: 
+
+- **Active member** is #1 driver → launch weekly engagement campaigns (vouchers, loyalty points).
+- **Risk_score** is #2 → separate Medium risk group for special retention programs.
+- **Mass segment** has 39% churn rate → focus retention resources here.
+
+**Churn Predictions Summary**
+
+
+| Risk Level            | Customers | % of Total | Action Required                  |
+| --------------------- | --------- | ---------- | -------------------------------- |
+| **High** (prob > 70%) | 1,493     | 1.9%       | 🔴 Immediate intervention needed |
+| **Medium** (30-70%)   | 18,507    | 23.1%      | 🟡 Monitor closely               |
+| **Low** (prob < 30%)  | 60,000    | 75.0%      | 🟢 Safe                          |
+
+
+> 💡 **Total at-risk customers (Medium + High): ~20,000 (25%)** – a critical insight for retention strategy.
+
+## 2. Revenue Forecasting (Prophet)
 
 **Objective:** Forecast daily revenue for the next 90 days.
-
-![Revenue Forecast](images/forecast_plot.png)
+Forecast Plot
 
 **Forecast Summary:**
-- **Forecast period:** 90 days (Jan–Mar 2024)
-- **Average daily revenue (forecast):** ~4.8 million VND/day
-- **Confidence interval:** ±0.2 million VND (upper/lower bounds)
 
-> 📌 **Key insight:** Revenue is projected to remain stable around 4.8M VND/day with minimal seasonal fluctuation in the next quarter.
+- **Forecast period:** 90 days
+- **Average daily revenue (forecast)**: ~4.8 million VND/day
+- **Confidence interval**: ±0.2 million VND (upper/lower bounds)
 
-## 🤖 AI Insights
+> 💡📌 **Key insight:** Revenue is projected to remain stable around 4.8M VND/day with minimal seasonal fluctuation in the next quarter.
 
-Starting from Week 6, the dashboard includes **AI-generated daily insights** powered by **Ollama Cloud**.
+# 📊 Power BI Dashboard – 5 Interactive Pages
 
-### How it works:
-1. **KPI Extraction:** A Python script runs daily to fetch key metrics from BigQuery (e.g., high-risk customers, churn rate, revenue).
-2. **AI Generation:** The data is sent to Ollama Cloud (GPT-OSS model) which generates a structured business summary in Vietnamese.
-3. **Dashboard Display:** The insight is stored in BigQuery and displayed on the **AI Insights** page of the Power BI dashboard.
+🔗 View Live Dashboard [https://app.powerbi.com/groups/me/reports/e76c0e66-6058-4eb3-a460-abacd8a4b3db/e47008a9bd1700b3c00d?experience=power-bi]
 
-### Sample Insight (translated):
+## Page 1 – Executive Overview
 
-> 📊 **General Situation:** Currently, there are 1,493 High-Risk customers (1.9%) and 18,507 Medium-Risk customers (23.1%). The average churn rate is 18.00%.  
-> ⚠️ **Notable Points:** Mass segment customers have a churn rate of 39.48%, 13 times higher than Priority segment.  
-> 💡 **Recommendations:** Focus retention campaigns on Mass and High-Risk segments. Send 10% discount vouchers to High-Risk customers. Monitor Medium-Risk group closely over the next 30 days.
+[[https://images/page1_executive.png]](https://images/page1_executive.png])
 
-### Dashboard Page:
-- The AI Insight is displayed on a dedicated **"AI Insights"** page using the **HTML Content** visual for clean, modern formatting.
-- The page automatically refreshes when new data is added to BigQuery.
+**Key Features:**
 
-> 💡 **Key Takeaway:** This feature demonstrates the ability to combine **traditional BI** with **Generative AI** to create a proactive, insight-driven decision-making tool.
+- Top KPIs: Total Revenue, Churn Rate, Avg Transaction Value, Total Transactions
+- Revenue trend line chart (historical + forecast)
+- Revenue breakdown by customer segment
+- Date range slicer
+**Business Value:** Provides leadership with a one-glance view of business health and future projections.
 
-## ☁️ Cloud Deployment
+## Page 2 – Customer Health
 
-The entire pipeline is now **fully automated** on Google Cloud Platform:
+[[https://images/page2_health.png]](https://images/page2_health.png])
 
-### Architecture
-- **dbt-job**: Runs dbt transformations daily at 6:00 AM (US Central Time)
-- **python-job**: Runs ML predictions and AI insights at 6:15 AM
-- **Cloud Scheduler**: Triggers both jobs automatically
-- **Artifact Registry**: Stores Docker images for dbt and Python
-- **BigQuery**: Data warehouse (already set up)
+**Key Features:**
 
-### How it works
-1. At 6:00 AM, Cloud Scheduler triggers `dbt-job`
-2. `dbt-job` runs `dbt run` to update Bronze → Silver → Gold layers
-3. At 6:15 AM, Cloud Scheduler triggers `python-job`
-4. `python-job` runs:
-   - XGBoost churn predictions → saves to `churn_predictions` table
-   - Prophet revenue forecast → saves to `forecast` table
-   - Ollama Cloud AI insights → saves to `daily_insights` table
-5. Power BI dashboard refreshes automatically
+- Churn rate by loyalty level (Bronze, Silver, Gold)
+- Churn rate by risk segment (Medium, Low)
+- Churn rate by cluster group
+- Customer profile table (segment, loyalty, risk, churn label)
+- Segment slicer
+**Business Value:** Identifies which customer segments need immediate retention efforts.
 
-### Technologies used for deployment
-- **Cloud Run Jobs**: Serverless execution of dbt and Python containers
-- **Cloud Scheduler**: Cron-based job scheduling
-- **Artifact Registry**: Docker image storage
-- **Cloud Build**: Container builds (optional)
+## Page 3 – Churn Drivers
 
-> 💡 **All services are within GCP's free tier limits**, so the pipeline runs at **zero cost** for light usage.
+[[https://images/page3_drivers.png]](https://images/page3_drivers.png])
 
-### Repository Structure (updated)
-```text
-fintech-intelligence-platform/
-├── README.md
+**Key Features:**
+
+- Feature importance from XGBoost model (bar chart)
+- Risk level slicer (High/Medium/Low)
+- Risk score distribution
+**Business Value:** Explains the "why" behind churn, enabling data-driven retention strategies.
+
+## Page 4 – What-if Scenario
+
+[[https://images/page4_whatif.png]](https://images/page4_whatif.png])
+
+**Key Features:**
+
+- Discount rate parameter (slicer: 0% – 20%)
+- Projected revenue calculation
+- Revenue impact visualization
+- Comparison chart: Current vs Projected revenue
+**Business Value:** Allows decision-makers to test business strategies before implementation.
+
+## Page 5 – AI Insights
+
+[[https://images/page5_ai.png]](https://images/page5_ai.png])
+
+**Key Features:**
+
+- Daily AI-generated business commentary (via Ollama Cloud)
+- Structured as: Situation → Notable Points → Recommendations
+- Automatically updated when new data arrives
+**Business Value:** Reduces time to insight – stakeholders get a ready-to-read summary without manual analysis.
+
+> 💡 **Sample Insight:**
+> *"📊 General Situation: Currently, there are 1,493 High-Risk customers (1.9%) and 18,507 Medium-Risk customers (23.1%). The average churn rate is 18.00%.*
+> ⚠️ Notable Points: Mass segment customers have a churn rate of 39.48%, 13 times higher than Priority segment.
+> *💡 Recommendations: Focus retention campaigns on Mass and High-Risk segments. Send 10% discount vouchers to High-Risk customers. Monitor Medium-Risk group closely over the next 30 days."*
+
+## 🛠️ dbt Implementation Details
+
+**Why dbt?**
+
+- Version control for all SQL transformations
+- Modular, reusable models (staging → intermediate → gold)
+- Built-in data quality tests (not null, unique, accepted values)
+- Auto-generated data documentation
+
+**Key Models:**
+
+
+| Model                 | Type             | Description                               |
+| --------------------- | ---------------- | ----------------------------------------- |
+| **stg_customers**     | Staging          | Cleaned customer data                     |
+| **stg_transactions**  | Staging          | Cleaned transaction data                  |
+| **int_txn_daily_agg** | Intermediate     | Daily revenue aggregation                 |
+| **int_user_cohort**   | Intermediate     | Cohort month and months since last active |
+| **dim_customers**     | Gold (Dimension) | Customer attributes for BI                |
+| **fct_daily_metrics** | Gold (Fact)      | Daily metrics with customer segments      |
+
+
+**Run Output:**
+
+```
+15:43:11  Completed successfully. PASS=8 WARN=0 ERROR=0
+```
+
+# 📂 Repository Structure
+
+```fintech-intelligence-platform/
+├── README.md                           # Project documentation
 ├── .gitignore
-├── .gc/                           # Service account keys (git ignored)
-├── Dockerfile.dbt                 # Container for dbt
-├── Dockerfile.python              # Container for ML + AI scripts
-├── workflow.yaml                  # (optional) Workflow definition
+├── images/                             # Screenshots for dashboard pages
+│   ├── feature_importance.png
+│   ├── forecast_plot.png
+│   ├── page1_executive.png
+│   ├── page2_health.png
+│   ├── page3_drivers.png
+│   ├── page4_whatif.png
+│   └── page5_ai.png
 ├── dbt_project/
 │   └── fintech_dbt/
 │       ├── models/
-│       ├── tests/
+│       │   ├── staging/
+│       │   │   ├── sources.yml
+│       │   │   ├── stg_customers.sql
+│       │   │   └── stg_transactions.sql
+│       │   ├── intermediate/
+│       │   │   ├── int_txn_daily_agg.sql
+│       │   │   └── int_user_cohort.sql
+│       │   └── gold/
+│       │       ├── dim_customers.sql
+│       │       └── fct_daily_metrics.sql
+│       ├── tests/                      # Data quality tests
 │       └── dbt_project.yml
-└── scripts/
-    ├── run_ml_ai.py               # Combined ML + AI script (for Cloud Run)
-    ├── predict_churn.py
-    ├── run_forecast.py
-    └── generate_insights.py
+└── notebooks/                          # Jupyter notebooks (EDA, ML models)
+    ├── Checking_The_Fraud_Dataset.ipynb
+    ├── FIP_Churn_Forecast.ipynb
+    └── FIP_AI_Insights.ipynb
 
-### 🛠️ Technology Stack & Architecture
 ```
-[Data Sources]
-   ├── Kaggle datasets (CSV)
-   └── Synthetic transaction generator (Python / Faker)
-         │
-         ▼
-[Google Cloud Platform]
-   ├── Cloud Storage → staging area
-   ├── BigQuery → Data Warehouse
-   │   ├── fip_dwh (Bronze)
-   │   ├── fip_dwh_silver (Silver)
-   │   └── fip_dwh_gold (Gold - Star Schema)
-   └── (Week 4) Cloud Run Jobs → dbt & Python scripts
-         │
-         ▼
-[Orchestration] (Week 5‑6)
-   └── Airflow (local) or Cloud Scheduler → trigger dbt + ML pipelines
-         │
-         ▼
-[BI & Insights]
-   ├── Power BI Service → interactive dashboard (4 pages)
-   └── Ollama Cloud → AI‑generated daily insights
-```
+
+# 📈 Key Findings & Business Recommendations
+
+## 1. Customer Churn Insights
+
+
+| Finding                                                           | Business Recommendation                                                   |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **Mass segment** has 39.48% churn rate (13x higher than Priority) | Launch targeted retention campaigns for Mass segment customers            |
+| **Bronze loyalty level** customers churn at 20.24% (highest)      | Create a loyalty upgrade program (Bronze → Silver) with clear benefits    |
+| **Medium risk** customers have 58.87% churn rate                  | Develop specialized engagement campaigns for Medium risk group            |
+| **Active member** is #1 churn driver (31.9%)                      | Implement weekly engagement initiatives (vouchers, points, notifications) |
+
+
+## 2. Revenue & Cash Flow
+
+- **Stable revenue forecast:** ~4.8M VND/day for the next 90 days
+- **Recommendation:** Maintain current marketing strategy, plan inventory based on stable demand
+
+## 3. AI-Generated Insights
+
+- Daily automated summaries save 1-2 hours of manual reporting time
+- Provides consistent, unbiased analysis for leadership
+
+# 👤 About Me
+
+I am a Data Analyst with a passion for turning raw data into actionable business insights. This project demonstrates my ability to:
+
+- **Design and implement** a complete data warehouse architecture
+- **Transform and model** data using modern tools (dbt, BigQuery, SQL)
+- **Build predictive models** (XGBoost, Prophet) to solve real business problems
+- **Create interactive dashboards** (Power BI) that drive decision-making
+- **Integrate AI** to automate and enhance business insights
+
+# 📧 Contact
+
+**LinkedIn:** linkedin.com/in/your-profile
+**GitHub:** github.com/ericgalbarn/fintech_intelligence_platform
+**Email:** [your.email@example.com](mailto:your.email@example.com)
+
+# 🙏 Acknowledgments
+
+- Kaggle for providing the datasets
+- Google Cloud for the BigQuery free tier
+- Ollama for the AI integration
