@@ -139,7 +139,7 @@ The project follows a **4-level analytical framework**:
 
 **Feature Importance – Top Drivers of Churn**
 
-Feature Importance
+![Feature Importance](images/feature_importance.png)
 
 
 | Rank | Feature              | Importance | Business Insight                                                       |
@@ -172,7 +172,8 @@ Feature Importance
 ## 2. Revenue Forecasting (Prophet)
 
 **Objective:** Forecast daily revenue for the next 90 days.
-Forecast Plot
+
+![Forecast Plot](images/forecast_plot.png)
 
 **Forecast Summary:**
 
@@ -188,19 +189,19 @@ Forecast Plot
 
 ## Page 1 – Executive Overview
 
-![How is the business performing overall](https://images/page1_executive.png)
+![Executive Overview](images/page1_executive.png)
 
 **Key Features:**
 
 - Top KPIs: Total Revenue, Churn Rate, Avg Transaction Value, Total Transactions
 - Revenue trend line chart (historical + forecast)
 - Revenue breakdown by customer segment
-- Date range slicer
+- Date range slicer  
 **Business Value:** Provides leadership with a one-glance view of business health and future projections.
 
 ## Page 2 – Customer Health
 
-[Which segments are at risk?](https://images/page2_health.png) 
+![Customer Health](images/page2_health.png)
 
 **Key Features:**
 
@@ -213,7 +214,7 @@ Forecast Plot
 
 ## Page 3 – Churn Drivers
 
-[Why are customers leaving?](https://images/page3_drivers.png)
+![Churn Drivers](images/page3_drivers.png)
 
 **Key Features:**
 
@@ -224,7 +225,7 @@ Forecast Plot
 
 ## Page 4 – What-if Scenario
 
-[What happens if we change the discount?](https://images/page4_whatif.png)
+![What-if Scenario](images/page4_whatif.png)
 
 **Key Features:**
 
@@ -236,7 +237,7 @@ Forecast Plot
 
 ## Page 5 – AI Insights
 
-[AI Insights](https://images/page5_ai.png)
+![AI Insights](images/page5_ai.png)
 
 **Key Features:**
 
@@ -351,4 +352,3 @@ I am a Data Analyst with a passion for turning raw data into actionable business
 **LinkedIn:** [https://www.linkedin.com/in/ericgalbarn/](https://www.linkedin.com/in/ericgalbarn/)  
 **GitHub:** github.com/ericgalbarn/fintech_intelligence_platform  
 **Email:** [ericgalbarn@gmail.com](mailto:your.email@example.com)
-
