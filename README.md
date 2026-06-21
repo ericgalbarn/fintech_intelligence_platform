@@ -20,8 +20,7 @@
 
 ## 📊 Live Dashboard
 
-🔗 **[View Live Power BI Dashboard](https://app.powerbi.com/groups/me/reports/e76c0e66-6058-4eb3-a460-abacd8a4b3db/e47008a9bd1700b3c00d?experience=power-bi)**  
-*(Replace with your actual link)*
+🔗 **[View Live Power BI Dashboard](https://app.powerbi.com/groups/me/reports/e76c0e66-6058-4eb3-a460-abacd8a4b3db/e47008a9bd1700b3c00d?experience=power-bi)**
 
 ---
 
@@ -65,8 +64,8 @@ The project follows a **4-level analytical framework**:
          │
          ▼
 [Data Science & Machine Learning]
-   ├── XGBoost (Churn prediction – AUC 85.6%)
-   └── Prophet (Revenue forecasting – 90 days)
+   ├── XGBoost (Churn prediction)
+   └── Prophet (Revenue forecasting in 90 days)
          │
          ▼
 [BI & AI Integration]
@@ -78,14 +77,14 @@ The project follows a **4-level analytical framework**:
 ## Technology Stack
 
 
-| Layer                     | Technologies                                          |
-| ------------------------- | ----------------------------------------------------- |
-| **Data Warehousing**      | Google BigQuery, SQL                                  |
-| **Data Transformation**   | dbt (Data Build Tool)                                 |
-| **Machine Learning**      | Python (XGBoost, Prophet, Scikit-learn), Google Colab |
-| **Business Intelligence** | Power BI Desktop, Power BI Service                    |
-| **AI Integration**        | Ollama Cloud (LLM-based insights)                     |
-| **Version Control**       | Git, GitHub                                           |
+| Layer                     | Technologies                            |
+| ------------------------- | --------------------------------------- |
+| **Data Warehousing**      | Google BigQuery, SQL                    |
+| **Data Transformation**   | dbt                                     |
+| **Machine Learning**      | Python (XGBoost, Prophet, Scikit-learn) |
+| **Business Intelligence** | Power BI Desktop, Power BI Service      |
+| **AI Integration**        | Ollama Cloud                            |
+| **Version Control**       | Git                                     |
 
 
 # 📊 Data Warehouse – Medallion Architecture
@@ -93,10 +92,10 @@ The project follows a **4-level analytical framework**:
 ## Bronze Layer (Raw data)
 
 
-| Table                   | Source                      | Rows      | Key columns                                                         |
-| ----------------------- | --------------------------- | --------- | ------------------------------------------------------------------- |
-| **bronze_customers**    | Kaggle (Vietnam Bank Churn) | 80,000    | id, exit (churn label), customer_segment, loyalty_level, risk_score |
-| **bronze_transactions** | Kaggle (Fraud Dectection)   | 5,000,000 | transaction_id, amount, is_fraud, location, timestamp               |
+| Table                   | Source                                                                                                                   | Rows      | Key columns                                                         |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------ | --------- | ------------------------------------------------------------------- |
+| **bronze_customers**    | Kaggle ([Vietnam Bank Churn](https://www.kaggle.com/datasets/tranhuunhan/vietnam-bank-churn-dataset-2025))               | 80,000    | id, exit (churn label), customer_segment, loyalty_level, risk_score |
+| **bronze_transactions** | Kaggle ([Fraud Dectection](https://www.kaggle.com/datasets/aryan208/financial-transactions-dataset-for-fraud-detection)) | 5,000,000 | transaction_id, amount, is_fraud, location, timestamp               |
 
 
 ## Silver Layer (Cleaned & standardized)
@@ -185,11 +184,11 @@ Forecast Plot
 
 # 📊 Power BI Dashboard – 5 Interactive Pages
 
-🔗 View Live Dashboard [https://app.powerbi.com/groups/me/reports/e76c0e66-6058-4eb3-a460-abacd8a4b3db/e47008a9bd1700b3c00d?experience=power-bi]
+🔗 **[View Live Power BI Dashboard](https://app.powerbi.com/groups/me/reports/e76c0e66-6058-4eb3-a460-abacd8a4b3db/e47008a9bd1700b3c00d?experience=power-bi)**
 
 ## Page 1 – Executive Overview
 
-[[https://images/page1_executive.png]](https://images/page1_executive.png])
+[[images/page1_executive.png]](https://images/page1_executive.png])
 
 **Key Features:**
 
@@ -201,7 +200,7 @@ Forecast Plot
 
 ## Page 2 – Customer Health
 
-[[https://images/page2_health.png]](https://images/page2_health.png])
+[[images/page2_health.png]](https://images/page2_health.png]) 
 
 **Key Features:**
 
@@ -214,7 +213,7 @@ Forecast Plot
 
 ## Page 3 – Churn Drivers
 
-[[https://images/page3_drivers.png]](https://images/page3_drivers.png])
+[[images/page3_drivers.png]](https://images/page3_drivers.png])
 
 **Key Features:**
 
@@ -225,7 +224,7 @@ Forecast Plot
 
 ## Page 4 – What-if Scenario
 
-[[https://images/page4_whatif.png]](https://images/page4_whatif.png])
+[[images/page4_whatif.png]](https://images/page4_whatif.png])
 
 **Key Features:**
 
@@ -237,7 +236,7 @@ Forecast Plot
 
 ## Page 5 – AI Insights
 
-[[https://images/page5_ai.png]](https://images/page5_ai.png])
+[[images/page5_ai.png]](https://images/page5_ai.png])
 
 **Key Features:**
 
@@ -349,12 +348,7 @@ I am a Data Analyst with a passion for turning raw data into actionable business
 
 # 📧 Contact
 
-**LinkedIn:** linkedin.com/in/your-profile
-**GitHub:** github.com/ericgalbarn/fintech_intelligence_platform
-**Email:** [your.email@example.com](mailto:your.email@example.com)
+**LinkedIn:** [https://www.linkedin.com/in/ericgalbarn/](https://www.linkedin.com/in/ericgalbarn/)  
+**GitHub:** github.com/ericgalbarn/fintech_intelligence_platform  
+**Email:** [ericgalbarn@gmail.com](mailto:your.email@example.com)
 
-# 🙏 Acknowledgments
-
-- Kaggle for providing the datasets
-- Google Cloud for the BigQuery free tier
-- Ollama for the AI integration
