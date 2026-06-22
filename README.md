@@ -246,11 +246,6 @@ The project follows a **4-level analytical framework**:
 - Automatically updated when new data arrives
 **Business Value:** Reduces time to insight – stakeholders get a ready-to-read summary without manual analysis.
 
-> 💡 **Sample Insight:**
-> *"📊 General Situation: Currently, there are 1,493 High-Risk customers (1.9%) and 18,507 Medium-Risk customers (23.1%). The average churn rate is 18.00%.*
-> ⚠️ Notable Points: Mass segment customers have a churn rate of 39.48%, 13 times higher than Priority segment.
-> *💡 Recommendations: Focus retention campaigns on Mass and High-Risk segments. Send 10% discount vouchers to High-Risk customers. Monitor Medium-Risk group closely over the next 30 days."*
-
 ## 🛠️ dbt Implementation Details
 
 **Why dbt?**
